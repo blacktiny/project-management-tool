@@ -1,5 +1,10 @@
 .task {
   display: flex;
+  width: 100%;
+
+  &-content {
+    width: calc(100% - 200px);
+  }
 
   .drag-drop-context {
     background-color: #cecece;
@@ -13,11 +18,46 @@
     flex-direction: column;
 
     .progress-bar-group {
+      display: flex;
+      flex-direction: column;
       background-color: #a8a8a8;
       margin: 10px 5px;
       padding: 10px;
       border-radius: 5px;
       box-shadow: 1px 1px 4px #444444;
+
+      &-header {
+        display: flex;
+        align-items: center;
+
+        .btn-timer {
+          width: 60px;
+          padding: 5px 0;
+          text-align: center;
+          border-radius: 5px;
+          color: white;
+          background-color: red;
+        }
+
+        .header-title {
+          width: calc(100% - 140px);
+          padding: 0 30px;
+          color: green;
+          font-weight: bold;
+        }
+
+        .btn-delete {
+          width: 20px;
+          height: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 15px;
+          border-radius: 50%;
+          color: red;
+          background-color: white;
+        }
+      }
     }
   }
 }

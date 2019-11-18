@@ -10,6 +10,10 @@
   background-color: #323232;
 }
 
+.page-content {
+  width: calc(100vw - 100px);
+}
+
 .logo-section {
   display: flex;
   justify-content: center;

@@ -107,6 +107,11 @@ class Task extends Component {
                             {...provided.draggableProps}
                           >
                             <div className='progress-bar-group'>
+                              <div className='progress-bar-group-header'>
+                                <div className='btn-timer'>Start</div>
+                                <div className='header-title' {...provided.dragHandleProps}>Title - junefox chat</div>
+                                <div className='btn-delete'>X</div>
+                              </div>
                               <div {...provided.dragHandleProps}>
                                 <TimeProgressBar startTime={item.startTime} endTime={item.endTime} />
                               </div>
