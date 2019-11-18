@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Redirect, Route, BrowserRouter } from 'react-router-dom'
-import Home from './Home'
 import Task from './Task'
 import './App.css'
 
@@ -20,7 +19,6 @@ class App extends Component {
             <div className='nav-item'>Profile</div>
           </div>
           <div className='page-content'>
-            <Route exact path='/' component={Home} />
             <Route path='/task/:userId' component={Task} />
             <Redirect from='/task' to='/task/all' />
           </div>

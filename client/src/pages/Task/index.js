@@ -16,16 +16,18 @@ const reorder = (list, startIndex, endIndex) => {
   return result
 }
 
-const mockup = [
+let mockup = [
   {
     id: 'aaaaa',
     userId: 'anton',
     inProgress: false,
     isFinished: false,
+    isShow: true,
 
     // TimeProgressBar Props
     startTime: 40,
     endTime: 60,
+    systemTime: -1,
 
     // ResizableProgressBar Props
     progressPercent: 80
@@ -35,8 +37,10 @@ const mockup = [
     userId: 'xianru',
     inProgress: true,
     isFinished: false,
+    isShow: true,
     startTime: 0,
     endTime: 60,
+    systemTime: -1,
     progressPercent: 0
   },
   {
@@ -44,8 +48,10 @@ const mockup = [
     userId: 'yinyong',
     inProgress: false,
     isFinished: false,
+    isShow: true,
     startTime: 40,
     endTime: 200,
+    systemTime: -1,
     progressPercent: 40
   },
   {
@@ -53,8 +59,10 @@ const mockup = [
     userId: 'yinyong',
     inProgress: false,
     isFinished: false,
+    isShow: true,
     startTime: 100,
     endTime: 1000,
+    systemTime: -1,
     progressPercent: 10
   }
 ]
@@ -78,6 +86,20 @@ class Task extends Component {
     const { userId } = this.props.match.params
 
     if (prevProps.match.params.userId !== userId) {
+      // update time of progressbar in progress
+      mockup.forEach(item => {
+        if (item.inProgress && !item.isShow) {
+          item.startTime += parseInt((new Date().getTime() - item.systemTime) / 1000)
+          if (item.startTime >= item.endTime) {
+            item.inProgress = false
+            item.isFinished = true
+            item.systemTime = -1
+            item.startTime = item.endTime
+          }
+        }
+      })
+
+      // filter by userId
       if (userId === 'all') {
         this.setState({ items: mockup })
       } else {
@@ -115,20 +137,28 @@ class Task extends Component {
   onTimerStart = (taskId) => {
     const { items } = this.state
 
-    const index = items.findIndex(item => { return item.id === taskId })
-    items[index].inProgress = !items[index].inProgress
-
+    let index = mockup.findIndex(item => { return item.id === taskId })
+    mockup[index].inProgress = !mockup[index].inProgress
+    
     this.setState({ items })
   }
 
   onTimerFinished = (taskId) => {
     const { items } = this.state
 
-    const index = items.findIndex(item => { return item.id === taskId })
-    items[index].inProgress = !items[index].inProgress
-    items[index].isFinished = true
+    let index = mockup.findIndex(item => { return item.id === taskId })
+    mockup[index].inProgress = false
+    mockup[index].isFinished = true
+    mockup[index].startTime = mockup[index].endTime
 
     this.setState({ items })
+  }
+
+  onInProgressTimerHide = (taskId, curTime) => {
+    const index = mockup.findIndex(item => { return item.id === taskId })
+    mockup[index].startTime = curTime
+    mockup[index].systemTime = new Date().getTime()
+    mockup[index].isShow = false
   }
 
   render() {
@@ -171,7 +201,8 @@ class Task extends Component {
                                   startTime={item.startTime}
                                   endTime={item.endTime}
                                   inProgress={item.inProgress}
-                                  callBackAfterTimerFinished={this.onTimerFinished}
+                                  hookAfterTimerFinished={this.onTimerFinished}
+                                  hookBeforeInProgressTimerHide={this.onInProgressTimerHide}
                                 />
                               </div>
                               <ResizableProgressBar
