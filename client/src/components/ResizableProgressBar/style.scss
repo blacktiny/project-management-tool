@@ -3,50 +3,61 @@
   display: flex;
   align-items: center;
 
-  .percent-value {
-    width: 80px;
-    padding: 0 0px 0 20px;
-    text-align: center;
-  }
-}
-
-.progress-bar-content {
-  width: 800px;
-  height: 20px;
-  background-color: #dedede;
-  border: 1px solid #dddddd;
-  border-radius: 5px;
-
-  .order {
-    height: 100%;
-    width: calc(100% - 40px);
+  .progress-bar-content {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    color: red;
+    width: 100%;
+
+    .title {
+      width: 80px;
+      text-align: right;
+      padding-right: 10px;
+    }
+
+    .container {
+      width: calc(100% - 80px);
+      height: 20px;
+      background-color: #dedede;
+      border: 1px solid #dddddd;
+      border-radius: 5px;
+    
+      .resizable-bar {
+        display: flex;
+        position: relative;
+        justify-content: flex-end;
+        border: 1px solid #4297d7;
+        background: #5c9ccc 50% 50% repeat-x;
+        border-radius: 5px;
+        margin-top: -1px;
+        margin-left: -1px;
+      }
+    
+      .resize-handler {
+        position: absolute;
+        width: 15px;
+        height: 30px;
+        right: -7px;
+        border-radius: 5px;
+        background-color: #1582d4;
+        margin-top: -5px;
+        box-shadow: 1px 1px 2px #005696;
+        cursor: col-resize;
+      }
+    
+      .order {
+        height: 100%;
+        width: calc(100% - 40px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        color: red;
+      }
+    }
+  
+    .percent-value {
+      width: 80px;
+      padding: 0 0px 0 20px;
+      text-align: center;
+    }
   }
-}
-
-.resize-handler {
-  position: absolute;
-  width: 15px;
-  height: 30px;
-  right: -7px;
-  border-radius: 5px;
-  background-color: #1582d4;
-  margin-top: -5px;
-  box-shadow: 1px 1px 2px #005696;
-  cursor: col-resize;
-}
-
-.resizable-bar {
-  display: flex;
-  position: relative;
-  justify-content: flex-end;
-  border: 1px solid #4297d7;
-  background: #5c9ccc 50% 50% repeat-x;
-  border-radius: 5px;
-  margin-top: -1px;
-  margin-left: -1px;
 }

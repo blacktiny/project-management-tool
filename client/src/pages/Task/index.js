@@ -30,25 +30,25 @@ class Task extends Component {
           endTime: 60,
 
           // ResizableProgressBar Props
-          width: 500
+          progressPercent: 80
         },
         {
           id: 'bbbbb',
           startTime: 0,
           endTime: 60,
-          width: 0
+          progressPercent: 0
         },
         {
           id: 'ccccc',
           startTime: 40,
           endTime: 200,
-          width: 300
+          progressPercent: 40
         },
         {
           id: 'ddddd',
           startTime: 100,
           endTime: 1000,
-          width: 150
+          progressPercent: 10
         }
       ]
     }
@@ -56,10 +56,10 @@ class Task extends Component {
     this.onDragEnd = this.onDragEnd.bind(this)
   }
 
-  resizeProgressBarFunc = (index, size) => {
+  resizeProgressBarFunc = (index, curPercent) => {
     const { items } = this.state
 
-    items[index].width = size.width
+    items[index].progressPercent = curPercent
 
     this.setState({ items })
   }
@@ -115,7 +115,7 @@ class Task extends Component {
                               <div {...provided.dragHandleProps}>
                                 <TimeProgressBar startTime={item.startTime} endTime={item.endTime} />
                               </div>
-                              <ResizableProgressBar index={index} width={item.width} {...progressbarInfo} />
+                              <ResizableProgressBar index={index} percent={item.progressPercent} {...progressbarInfo} />
                             </div>
                           </div>
                         )}

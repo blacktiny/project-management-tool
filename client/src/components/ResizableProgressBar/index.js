@@ -16,31 +16,62 @@ class ResizableProgressBar extends Component {
         axis: 'x',
         handle: (<strong className='resize-handler'></strong>),
         minConstraints: [0, Infinity],
-        maxConstraints: [800, Infinity],
+        maxConstraints: [Infinity, Infinity],
         onResize: this.resize
       }
     }
   }
 
   resize = (e, data) => {
-    const { resizeFunc } = this.props
-    const { index } = this.props
+    const { maxWidth } = this.state
+    const { index, resizeFunc } = this.props
+    const curPercent = data.size.width / maxWidth * 100
 
-    resizeFunc(index, data.size)
+    resizeFunc(index, curPercent)
+  }
+
+  /**
+   * Calculate ResizableBox width
+   */
+  updateDimensions() {
+    console.log('updateDimensions')
+    let { resizableInfo } = this.state
+    const maxWidth = window.innerWidth - 462
+
+    resizableInfo.maxConstraints = [maxWidth, Infinity]
+    this.setState({ maxWidth, resizableInfo })
+  }
+
+  /**
+   * Add window resize event listener
+   */
+  componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener("resize", this.updateDimensions.bind(this));
+  }
+
+  /**
+   * Remove window resize event listener
+   */
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions.bind(this));
   }
 
   render() {
     const { resizableInfo, maxWidth } = this.state
-    const { width } = this.props
+    const { percent } = this.props
 
-    resizableInfo.width = width
+    resizableInfo.width = maxWidth * percent / 100
 
     return (
       <div className='resizable-progress-bar'>
         <div className='progress-bar-content'>
-          <ResizableBox className='resizable-bar' {...resizableInfo} />
+          <div className='title'>Progress</div>
+          <div className='container'>
+            <ResizableBox className='resizable-bar' {...resizableInfo} />
+          </div>
+          {/* <div className='percent-value'>{Number(width / maxWidth * 100).toFixed(2)} %</div> */}
         </div>
-        <div className='percent-value'>{Number(width / maxWidth * 100).toFixed(2)} %</div>
       </div>
     )
   }
@@ -48,7 +79,7 @@ class ResizableProgressBar extends Component {
 
 ResizableProgressBar.propTypes = {
   index: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired
+  percent: PropTypes.number.isRequired
 }
 
 export default ResizableProgressBar
