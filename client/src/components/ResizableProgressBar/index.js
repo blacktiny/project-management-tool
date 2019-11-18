@@ -34,7 +34,6 @@ class ResizableProgressBar extends Component {
    * Calculate ResizableBox width
    */
   updateDimensions() {
-    console.log('updateDimensions')
     let { resizableInfo } = this.state
     const maxWidth = window.innerWidth - 462
 

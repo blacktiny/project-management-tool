@@ -14,27 +14,42 @@ class TimeProgressBar extends Component {
   }
 
   componentDidMount() {
-    const { endTime, startTime } = this.props
+    const { endTime, startTime, inProgress } = this.props
     this.setState({ stepTime: endTime / 100, curTime: startTime })
 
-    // this.timer = setInterval(this.intervalTimeFunc, 1000)
+    if (inProgress) this.timer = setInterval(this.intervalTimeFunc, 1000)
+  }
+
+  componentDidUpdate(prevProps) {
+    const { inProgress } = this.props
+    if (prevProps.inProgress !== inProgress) {
+      if (inProgress) this.timer = setInterval(this.intervalTimeFunc, 1000)
+      else this.clearTimer()
+    }
+  }
+
+  componentWillUnmount() {
+    const { taskId } = this.props
+    
+    this.clearTimer()
   }
 
   intervalTimeFunc = () => {
     let { curTime } = this.state
-    const { endTime } = this.props
+    const { taskId, endTime, callBackAfterTimerFinished } = this.props
 
     curTime ++
 
     if (curTime === endTime) {
       clearInterval(this.timer)
+      callBackAfterTimerFinished(taskId)
     }
 
     this.setState({ curTime })
   }
 
   clearTimer = () => {
-    clearInterval()
+    clearInterval(this.timer)
   }
 
   getTimeLabel = (curTime) => {
@@ -68,8 +83,11 @@ class TimeProgressBar extends Component {
 }
 
 TimeProgressBar.propTypes = {
+  taskId: PropTypes.string.isRequired,
   startTime: PropTypes.number.isRequired,
-  endTime: PropTypes.number.isRequired
+  endTime: PropTypes.number.isRequired,
+  inProgress: PropTypes.bool.isRequired,
+  callBackAfterTimerFinished: PropTypes.func.isRequired
 }
 
 export default TimeProgressBar

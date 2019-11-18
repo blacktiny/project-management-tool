@@ -4,11 +4,18 @@
   background-color: #262626;
 
   .all-task {
-    font-size: 25px;
-    color: #bbbbbb;
     text-align: center;
-    padding: 25px 0;
     cursor: pointer;
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      font-size: 25px;
+      color: #bbbbbb;
+      padding: 25px 0;
+    }
   }
 
   &-item {
@@ -19,6 +26,12 @@
 
     &:hover {
       background-color: grey;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
     }
 
     .user-avatar {
@@ -44,11 +57,14 @@
   }
 
   .active {
-    color: white;
-    font-weight: bold;
-    .user-name {
+    a {
       color: white;
       font-weight: bold;
+
+      .user-name {
+        color: white;
+        font-weight: bold;
+      }
     }
   }
 }
