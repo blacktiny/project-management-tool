@@ -21,7 +21,7 @@ class App extends Component {
           </div>
           <div className='page-content'>
             <Route exact path='/' component={Home} />
-            <Route path='/task/:user' component={Task} />
+            <Route path='/task/:userId' component={Task} />
             <Redirect from='/task' to='/task/all' />
           </div>
         </div>

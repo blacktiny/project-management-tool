@@ -37,6 +37,13 @@
           border-radius: 5px;
           color: white;
           background-color: red;
+          cursor: pointer;
+        }
+
+        .btn-timer.disable {
+          cursor: default;
+          pointer-events: none;
+          background-color: #b51010;
         }
 
         .header-title {
@@ -56,6 +63,7 @@
           border-radius: 50%;
           color: red;
           background-color: white;
+          cursor: pointer;
         }
       }
     }

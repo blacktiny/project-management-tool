@@ -16,44 +16,75 @@ const reorder = (list, startIndex, endIndex) => {
   return result
 }
 
+const mockup = [
+  {
+    id: 'aaaaa',
+    userId: 'anton',
+    inProgress: false,
+    isFinished: false,
+
+    // TimeProgressBar Props
+    startTime: 40,
+    endTime: 60,
+
+    // ResizableProgressBar Props
+    progressPercent: 80
+  },
+  {
+    id: 'bbbbb',
+    userId: 'xianru',
+    inProgress: true,
+    isFinished: false,
+    startTime: 0,
+    endTime: 60,
+    progressPercent: 0
+  },
+  {
+    id: 'ccccc',
+    userId: 'yinyong',
+    inProgress: false,
+    isFinished: false,
+    startTime: 40,
+    endTime: 200,
+    progressPercent: 40
+  },
+  {
+    id: 'ddddd',
+    userId: 'yinyong',
+    inProgress: false,
+    isFinished: false,
+    startTime: 100,
+    endTime: 1000,
+    progressPercent: 10
+  }
+]
+
 class Task extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      items: [
-        {
-          id: 'aaaaa',
-
-          // TimeProgressBar Props
-          startTime: 40,
-          endTime: 60,
-
-          // ResizableProgressBar Props
-          progressPercent: 80
-        },
-        {
-          id: 'bbbbb',
-          startTime: 0,
-          endTime: 60,
-          progressPercent: 0
-        },
-        {
-          id: 'ccccc',
-          startTime: 40,
-          endTime: 200,
-          progressPercent: 40
-        },
-        {
-          id: 'ddddd',
-          startTime: 100,
-          endTime: 1000,
-          progressPercent: 10
-        }
-      ]
+      items: []
     }
 
     this.onDragEnd = this.onDragEnd.bind(this)
+  }
+
+  componentDidMount() {
+    this.setState({ items: mockup })
+  }
+
+  componentDidUpdate(prevProps, prevStete) {
+    const { userId } = this.props.match.params
+
+    if (prevProps.match.params.userId !== userId) {
+      if (userId === 'all') {
+        this.setState({ items: mockup })
+      } else {
+        const result = mockup.filter(item => item.userId === userId)
+        this.setState({ items: result })
+      }
+    }
   }
 
   resizeProgressBarFunc = (index, curPercent) => {
@@ -81,6 +112,25 @@ class Task extends Component {
     })
   }
 
+  onTimerStart = (taskId) => {
+    const { items } = this.state
+
+    const index = items.findIndex(item => { return item.id === taskId })
+    items[index].inProgress = !items[index].inProgress
+
+    this.setState({ items })
+  }
+
+  onTimerFinished = (taskId) => {
+    const { items } = this.state
+
+    const index = items.findIndex(item => { return item.id === taskId })
+    items[index].inProgress = !items[index].inProgress
+    items[index].isFinished = true
+
+    this.setState({ items })
+  }
+
   render() {
     const progressbarInfo = {
       resizeFunc: this.resizeProgressBarFunc
@@ -98,7 +148,7 @@ class Task extends Component {
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
-                    {this.state.items.map((item, index) => (
+                    {this.state.items && this.state.items.map((item, index) => (
                       <Draggable key={item.id} draggableId={item.id} index={index}>
                         {(provided) => (
                           <div
@@ -108,14 +158,27 @@ class Task extends Component {
                           >
                             <div className='progress-bar-group'>
                               <div className='progress-bar-group-header'>
-                                <div className='btn-timer'>Start</div>
+                                <div
+                                  className={`btn-timer${item.isFinished ? ' disable' : ''}`}
+                                  onClick={() => this.onTimerStart(item.id)}>{item.inProgress ? 'Stop' : 'Start'}
+                                </div>
                                 <div className='header-title' {...provided.dragHandleProps}>Title - junefox chat</div>
                                 <div className='btn-delete'>X</div>
                               </div>
                               <div {...provided.dragHandleProps}>
-                                <TimeProgressBar startTime={item.startTime} endTime={item.endTime} />
+                                <TimeProgressBar
+                                  taskId={item.id}
+                                  startTime={item.startTime}
+                                  endTime={item.endTime}
+                                  inProgress={item.inProgress}
+                                  callBackAfterTimerFinished={this.onTimerFinished}
+                                />
                               </div>
-                              <ResizableProgressBar index={index} percent={item.progressPercent} {...progressbarInfo} />
+                              <ResizableProgressBar
+                                index={index}
+                                percent={item.progressPercent}
+                                {...progressbarInfo}
+                              />
                             </div>
                           </div>
                         )}
