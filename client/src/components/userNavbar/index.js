@@ -42,6 +42,7 @@ class UserNavbar extends Component {
         </div>
       )
     })
+    
     return (
       <div className='user-navbar'>
         <div className={`all-task${current_user === 'all' ? ' active' : ''}`} onClick={() => this.onUserSelected('all')}>All Tasks</div>
