@@ -195,21 +195,29 @@ class Task extends Component {
                                 <div className='header-title' {...provided.dragHandleProps}>Title - junefox chat</div>
                                 <div className='btn-delete'>X</div>
                               </div>
-                              <div {...provided.dragHandleProps}>
-                                <TimeProgressBar
-                                  taskId={item.id}
-                                  startTime={item.startTime}
-                                  endTime={item.endTime}
-                                  inProgress={item.inProgress}
-                                  hookAfterTimerFinished={this.onTimerFinished}
-                                  hookBeforeInProgressTimerHide={this.onInProgressTimerHide}
-                                />
+                              <div className='progress-bar-group-content'>
+                                <div className='progressbar-content'>
+                                  <div {...provided.dragHandleProps}>
+                                    <TimeProgressBar
+                                      taskId={item.id}
+                                      startTime={item.startTime}
+                                      endTime={item.endTime}
+                                      inProgress={item.inProgress}
+                                      hookAfterTimerFinished={this.onTimerFinished}
+                                      hookBeforeInProgressTimerHide={this.onInProgressTimerHide}
+                                    />
+                                  </div>
+                                  <ResizableProgressBar
+                                    index={index}
+                                    percent={item.progressPercent}
+                                    {...progressbarInfo}
+                                  />
+                                </div>
+                                <div className='comment-content'>
+                                  <div className='comment-box'></div>
+                                  <div className='view-all'>view all</div>
+                                </div>
                               </div>
-                              <ResizableProgressBar
-                                index={index}
-                                percent={item.progressPercent}
-                                {...progressbarInfo}
-                              />
                             </div>
                           </div>
                         )}
