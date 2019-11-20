@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import Slider from 'infinite-react-carousel'
 
 import UserNavbar from '../../components/userNavbar'
 import ResizableProgressBar from '../../components/ResizableProgressBar'
@@ -30,7 +31,19 @@ let mockup = [
     systemTime: -1,
 
     // ResizableProgressBar Props
-    progressPercent: 80
+    progressPercent: 80,
+
+    // comments
+    comments: [
+      {
+        comment: 'making database',
+        dateTime: '2019/11/19'
+      },
+      {
+        comment: 'creating tables',
+        dateTime: '2019/11/19'
+      },
+    ]
   },
   {
     id: 'bbbbb',
@@ -41,7 +54,17 @@ let mockup = [
     startTime: 0,
     endTime: 60,
     systemTime: -1,
-    progressPercent: 0
+    progressPercent: 0,
+    comments: [
+      {
+        comment: 'editing',
+        dateTime: '2019/11/19'
+      },
+      {
+        comment: 'updating',
+        dateTime: '2019/11/19'
+      },
+    ]
   },
   {
     id: 'ccccc',
@@ -52,7 +75,17 @@ let mockup = [
     startTime: 40,
     endTime: 200,
     systemTime: -1,
-    progressPercent: 40
+    progressPercent: 40,
+    comments: [
+      {
+        comment: 'debugging',
+        dateTime: '2019/11/19'
+      },
+      {
+        comment: 'developing',
+        dateTime: '2019/11/19'
+      },
+    ]
   },
   {
     id: 'ddddd',
@@ -63,7 +96,17 @@ let mockup = [
     startTime: 100,
     endTime: 1000,
     systemTime: -1,
-    progressPercent: 10
+    progressPercent: 10,
+    comments: [
+      {
+        comment: 'in progress',
+        dateTime: '2019/11/19'
+      },
+      {
+        comment: 'completed',
+        dateTime: '2019/11/19'
+      },
+    ]
   }
 ]
 
@@ -139,7 +182,7 @@ class Task extends Component {
 
     let index = mockup.findIndex(item => { return item.id === taskId })
     mockup[index].inProgress = !mockup[index].inProgress
-    
+
     this.setState({ items })
   }
 
@@ -165,6 +208,14 @@ class Task extends Component {
     const progressbarInfo = {
       resizeFunc: this.resizeProgressBarFunc
     }
+
+    const carouselSettings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    };
 
     return (
       <div className='task'>
@@ -214,7 +265,13 @@ class Task extends Component {
                                   />
                                 </div>
                                 <div className='comment-content'>
-                                  <div className='comment-box'></div>
+                                  <div className='comment-box'>
+                                    <Slider {...carouselSettings}>
+                                      <div className=''>{item.comments[0].comment}</div>
+                                      <div className=''>{item.comments[1].comment}</div>
+                                    </Slider>
+                                    {/* {item.comments[0].comment} */}
+                                  </div>
                                   <div className='view-all'>view all</div>
                                 </div>
                               </div>

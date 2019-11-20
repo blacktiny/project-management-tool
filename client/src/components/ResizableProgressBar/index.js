@@ -35,7 +35,7 @@ class ResizableProgressBar extends Component {
    */
   updateDimensions() {
     let { resizableInfo } = this.state
-    const maxWidth = window.innerWidth - 692
+    const maxWidth = window.innerWidth - 752
 
     resizableInfo.maxConstraints = [maxWidth, Infinity]
     this.setState({ maxWidth, resizableInfo })
