@@ -220,8 +220,20 @@ class Task extends Component {
       comments: []
     }
 
-    // mockup.push(newTask)
     items.push(newTask)
+    this.setState({ items })
+  }
+
+  onDeleteTask = (taskId) => {
+    const { items } = this.state
+
+    const index = mockup.findIndex(item => { return item.id === taskId })
+    if (mockup[index].inProgress) {
+      alert(`Sorry, can't delete the task in progress. Please stop the task first.`)
+      return 
+    }
+    mockup.splice(index, 1)
+
     this.setState({ items })
   }
 
@@ -276,7 +288,7 @@ class Task extends Component {
                                   onClick={() => this.onTimerStart(item.id)}>{item.inProgress ? 'Stop' : 'Start'}
                                 </div>
                                 <div className='header-title' {...provided.dragHandleProps}>Title - junefox chat</div>
-                                <div className='btn-delete'>X</div>
+                                <div className='btn-delete' onClick={() => this.onDeleteTask(item.id)}>X</div>
                               </div>
                               <div className='progress-bar-group-content'>
                                 <div className='progressbar-content'>
