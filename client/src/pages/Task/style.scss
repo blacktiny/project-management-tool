@@ -4,13 +4,28 @@
 
   &-content {
     width: calc(100% - 200px);
+    height: 100vh;
+    overflow: scroll;
+
+    &-header {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px 20px;
+
+      .btn-add-task {
+        color: white;
+        background-color: red;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+    }
   }
 
   .drag-drop-context {
     background-color: #cecece;
     border-radius: 5px;
     padding: 20px;
-    margin-top: 50px;
   }
 
   .item-content {
@@ -141,6 +156,7 @@
           text-align: right;
           padding: 2px 10px;
           margin-right: 60px;
+          cursor: pointer;
         }
       }
     }

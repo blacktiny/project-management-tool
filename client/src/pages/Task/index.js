@@ -204,6 +204,35 @@ class Task extends Component {
     mockup[index].isShow = false
   }
 
+  onAddNewTask = () => {
+    const { items } = this.state
+    const curTime = new Date().getTime()
+    const newTask = {
+      id: 'newTask_' + curTime,
+      userId: 'user_' + curTime,
+      inProgress: false,
+      isFinished: false,
+      isShow: true,
+      startTime: 0,
+      endTime: 3600,
+      systemTime: -1,
+      progressPercent: 0,
+      comments: []
+    }
+
+    // mockup.push(newTask)
+    items.push(newTask)
+    this.setState({ items })
+  }
+
+  getCommentList = (comments) => {
+    return comments.map((item, index) => {
+      return (
+        <div key={index} className=''>{item.comment}</div>
+      )
+    })
+  }
+
   render() {
     const progressbarInfo = {
       resizeFunc: this.resizeProgressBarFunc
@@ -221,6 +250,9 @@ class Task extends Component {
       <div className='task'>
         <UserNavbar />
         <div className='task-content'>
+          <div className='task-content-header'>
+            <div className='btn-add-task' onClick={this.onAddNewTask}>Add Task</div>
+          </div>
           <div className='drag-drop-context'>
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable droppableId='droppable'>
@@ -266,11 +298,9 @@ class Task extends Component {
                                 </div>
                                 <div className='comment-content'>
                                   <div className='comment-box'>
-                                    <Slider {...carouselSettings}>
-                                      <div className=''>{item.comments[0].comment}</div>
-                                      <div className=''>{item.comments[1].comment}</div>
-                                    </Slider>
-                                    {/* {item.comments[0].comment} */}
+                                    {item.comments.length ? <Slider {...carouselSettings}>
+                                      {this.getCommentList(item.comments)}
+                                    </Slider> : <div></div>}
                                   </div>
                                   <div className='view-all'>view all</div>
                                 </div>
