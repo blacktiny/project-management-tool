@@ -6,7 +6,7 @@ export const createProducer = (initialState, handlers) =>
       let type = action.type
       let [prefix, event, apiState] = type.split("/")
       let any = prefix + "/any"
-      type != any && handlers[any] && handlers[any](draft, action);
+      type !== any && handlers[any] && handlers[any](draft, action);
       // handlers[prefix+"/"+event] && handlers[prefix+"/"+event](draft,action);
       return handlers[type] && handlers[type](draft, action)
     })
