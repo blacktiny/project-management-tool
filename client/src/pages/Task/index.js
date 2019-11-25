@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import Slider from 'infinite-react-carousel'
 
 import UserNavbar from '../../components/userNavbar'
 import ResizableProgressBar from '../../components/ResizableProgressBar'
 import TimeProgressBar from '../../components/TimeProgressBar'
+
+import { addNewTask, startTimer } from '../../stores/Task/actions'
 
 import './style.scss'
 
@@ -17,98 +20,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result
 }
 
-let mockup = [
-  {
-    id: 'aaaaa',
-    userId: 'anton',
-    inProgress: false,
-    isFinished: false,
-    isShow: true,
-
-    // TimeProgressBar Props
-    startTime: 40,
-    endTime: 60,
-    systemTime: -1,
-
-    // ResizableProgressBar Props
-    progressPercent: 80,
-
-    // comments
-    comments: [
-      {
-        comment: 'making database',
-        dateTime: '2019/11/19'
-      },
-      {
-        comment: 'creating tables',
-        dateTime: '2019/11/19'
-      },
-    ]
-  },
-  {
-    id: 'bbbbb',
-    userId: 'xianru',
-    inProgress: true,
-    isFinished: false,
-    isShow: true,
-    startTime: 0,
-    endTime: 60,
-    systemTime: -1,
-    progressPercent: 0,
-    comments: [
-      {
-        comment: 'editing',
-        dateTime: '2019/11/19'
-      },
-      {
-        comment: 'updating',
-        dateTime: '2019/11/19'
-      },
-    ]
-  },
-  {
-    id: 'ccccc',
-    userId: 'yinyong',
-    inProgress: false,
-    isFinished: false,
-    isShow: true,
-    startTime: 40,
-    endTime: 200,
-    systemTime: -1,
-    progressPercent: 40,
-    comments: [
-      {
-        comment: 'debugging',
-        dateTime: '2019/11/19'
-      },
-      {
-        comment: 'developing',
-        dateTime: '2019/11/19'
-      },
-    ]
-  },
-  {
-    id: 'ddddd',
-    userId: 'yinyong',
-    inProgress: false,
-    isFinished: false,
-    isShow: true,
-    startTime: 100,
-    endTime: 1000,
-    systemTime: -1,
-    progressPercent: 10,
-    comments: [
-      {
-        comment: 'in progress',
-        dateTime: '2019/11/19'
-      },
-      {
-        comment: 'completed',
-        dateTime: '2019/11/19'
-      },
-    ]
-  }
-]
+const mockup = []
 
 class Task extends Component {
   constructor(props) {
@@ -122,15 +34,21 @@ class Task extends Component {
   }
 
   componentDidMount() {
-    this.setState({ items: mockup })
+    const { tasks } = this.props
+    this.setState({ items: tasks })
   }
 
   componentDidUpdate(prevProps, prevStete) {
+    const { tasks } = this.props
     const { userId } = this.props.match.params
+
+    if (prevProps.tasks !== tasks) {
+      this.setState({ items: tasks })
+    }
 
     if (prevProps.match.params.userId !== userId) {
       // update time of progressbar in progress
-      mockup.forEach(item => {
+      tasks.forEach(item => {
         if (item.inProgress && !item.isShow) {
           item.startTime += parseInt((new Date().getTime() - item.systemTime) / 1000)
           if (item.startTime >= item.endTime) {
@@ -144,9 +62,9 @@ class Task extends Component {
 
       // filter by userId
       if (userId === 'all') {
-        this.setState({ items: mockup })
+        this.setState({ items: tasks })
       } else {
-        const result = mockup.filter(item => item.userId === userId)
+        const result = tasks.filter(item => item.userId === userId)
         this.setState({ items: result })
       }
     }
@@ -178,12 +96,9 @@ class Task extends Component {
   }
 
   onTimerStart = (taskId) => {
-    const { items } = this.state
-
-    let index = mockup.findIndex(item => { return item.id === taskId })
-    mockup[index].inProgress = !mockup[index].inProgress
-
-    this.setState({ items })
+    const { tasks, startTimerAction } = this.props
+    let index = tasks.findIndex(item => { return item.id === taskId })
+    startTimerAction(index, 'inProgress', !tasks[index].inProgress)
   }
 
   onTimerFinished = (taskId) => {
@@ -205,7 +120,7 @@ class Task extends Component {
   }
 
   onAddNewTask = () => {
-    const { items } = this.state
+    const { addNewTaskAction } = this.props
     const curTime = new Date().getTime()
     const newTask = {
       id: 'newTask_' + curTime,
@@ -220,8 +135,7 @@ class Task extends Component {
       comments: []
     }
 
-    items.push(newTask)
-    this.setState({ items })
+    addNewTaskAction(newTask)
   }
 
   onDeleteTask = (taskId) => {
@@ -230,7 +144,7 @@ class Task extends Component {
     const index = mockup.findIndex(item => { return item.id === taskId })
     if (mockup[index].inProgress) {
       alert(`Sorry, can't delete the task in progress. Please stop the task first.`)
-      return 
+      return
     }
     mockup.splice(index, 1)
 
@@ -334,4 +248,13 @@ class Task extends Component {
   }
 }
 
-export default Task
+const state = ({ tasks }) => ({
+  tasks: tasks.data
+})
+
+const actions = ({
+  addNewTaskAction: addNewTask,
+  startTimerAction: startTimer
+})
+
+export default connect(state, actions)(Task)
