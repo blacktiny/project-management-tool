@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "immer": "^5.0.0",
     "infinite-react-carousel": "^1.1.7",
     "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
