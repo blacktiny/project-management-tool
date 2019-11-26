@@ -1,18 +1,18 @@
 import actionTypes from '../../constants/actionTypes'
 import { api } from '../api'
 
-// export const getTasksByUserId = (userId) => (
-//   {
-//     type: actionTypes.GET_TASKS,
-//     data: { userId }
-//   }
-// )
-export const getTasksByUserId = (userId) => api(
+export const getTasksByUserId = (userId) => (
   {
-    url: '/task/load',
+    type: actionTypes.GET_TASKS,
     data: { userId }
   }
 )
+// export const getTasksByUserId = (userId) => api(
+//   {
+//     url: '/task/load',
+//     data: { userId }
+//   }
+// )
 
 export const addNewTask = (newTask) => (
   {

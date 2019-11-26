@@ -36,7 +36,7 @@ let initialState = {
       inProgress: true,
       isFinished: false,
       isShow: true,
-      startTime: 0,
+      startTime: 50,
       endTime: 60,
       systemTime: -1,
       progressPercent: 0,
@@ -97,10 +97,41 @@ let initialState = {
 }
 
 export default createProducer(initialState, {
-  [actionTypes.ADD_NEW_TASK]: (task, { data }) => {
-    task.data.push(data)
+  [actionTypes.GET_TASKS]: (task, { data }) => {
+    task.data.forEach(item => {
+      if (data.userId === item.userId || data.userId === 'all') {
+        if (item.inProgress && !item.isShow) {
+          item.startTime += parseInt((new Date().getTime() - item.systemTime) / 1000)
+          if (item.startTime >= item.endTime) {
+            item.inProgress = false
+            item.isFinished = true
+            item.systemTime = -1
+            item.startTime = item.endTime
+          }
+          item.isShow = true
+        }
+      } else {
+        if (item.inProgress && item.isShow) {
+          item.systemTime = new Date().getTime()
+          item.isShow = false
+        }
+      }
+    })
   },
-  [actionTypes.START_TIMER]: (task, { index, key, value }) => {
+
+  [actionTypes.ADD_NEW_TASK]: (task, { data }) => {
+    task.data.push(data.newTask)
+  },
+
+  [actionTypes.START_TIMER]: (task, { data }) => {
+    const { index, key, value } = data
     task.data[index][key] = value
+    
+    if (key === 'isFinished') {
+      task.data[index].inProgress = false
+      task.data[index].startTime = task.data[index].endTime
+    } else if (key === 'isShow') {
+      // task.data[index].systemTime = new Date().getTime()
+    }
   }
 })
