@@ -7,18 +7,20 @@
     display: flex;
     width: 100%;
 
-    .title {
+    .progress-bar__title {
       width: 80px;
       text-align: right;
+      color: #646777;
       padding-right: 10px;
     }
 
-    .container {
+    .progress-bar__container {
       width: calc(100% - 80px);
-      height: 20px;
+      height: 16px;
+      margin: 2px 0;
       background-color: #dedede;
       border: 1px solid #dddddd;
-      border-radius: 5px;
+      border-radius: 10px;
     
       .resizable-bar {
         display: flex;
@@ -26,7 +28,7 @@
         justify-content: flex-end;
         border: 1px solid #4297d7;
         background: #5c9ccc 50% 50% repeat-x;
-        border-radius: 5px;
+        border-radius: 10px;
         margin-top: -1px;
         margin-left: -1px;
       }
@@ -34,11 +36,11 @@
       .resize-handler {
         position: absolute;
         width: 15px;
-        height: 30px;
+        height: 29px;
         right: -7px;
         border-radius: 5px;
         background-color: #1582d4;
-        margin-top: -5px;
+        margin-top: -8px;
         box-shadow: 1px 1px 2px #005696;
         cursor: col-resize;
       }

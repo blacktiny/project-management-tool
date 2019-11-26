@@ -1,16 +1,17 @@
 .time-progress-bar {
   display: flex;
   flex-direction: column;
-  padding-bottom: 15px;
+  padding-bottom: 8px;
 
   .progress-wrap {
-    width: 100%;
+    width: calc(100% - 80px);
     padding: 2px 0;
   }
 
   .time-label {
     font-size: 11px;
     text-align: right;
+    color: #646777;
     padding: 0 10px 0 0;
   }
   
@@ -20,6 +21,7 @@
     .title {
       width: 80px;
       text-align: right;
+      color: #646777;
       padding-right: 10px;
     }
 

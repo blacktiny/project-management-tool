@@ -13,16 +13,19 @@ class UserNavbar extends Component {
         {
           avatar: '',
           name: 'Anton',
+          role: 'Lead Developer',
           userId: 'anton'
         },
         {
           avatar: '',
           name: 'Xianru Xian',
+          role: 'Full-Stack Developer',
           userId: 'xianru'
         },
         {
           avatar: '',
           name: 'Li YinYong',
+          role: 'Front-End Developer',
           userId: 'yinyong'
         }
       ],
@@ -43,7 +46,10 @@ class UserNavbar extends Component {
             <div className='user-avatar'>
               <img src={userIcon} alt='user' />
             </div>
-            <div className='user-name'>{item.name}</div>
+            <div className='user-info'>
+              <p className='user-name'>{item.name}</p>
+              <p className='user-role'>{item.role}</p>
+            </div>
           </Link>
         </div>
       )
