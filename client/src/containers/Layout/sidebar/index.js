@@ -15,16 +15,16 @@ const Sidebar = ({
 
   return (
     <div className={sidebarClass}>
-      <button className="sidebar__back" type="button" onClick={changeMobileSidebarVisibility} />
-      <Scrollbar className="sidebar__scroll scroll">
-        <div className="sidebar__wrapper sidebar__wrapper--desktop">
+      <button className='sidebar__back' type='button' onClick={changeMobileSidebarVisibility} />
+      <Scrollbar className='sidebar__scroll scroll'>
+        <div className='sidebar__wrapper sidebar__wrapper--desktop'>
           <SidebarContent
             onClick={() => {}}
             changeToDark={changeToDark}
             changeToLight={changeToLight}
           />
         </div>
-        <div className="sidebar__wrapper sidebar__wrapper--mobile">
+        <div className='sidebar__wrapper sidebar__wrapper--mobile'>
           <SidebarContent
             onClick={changeMobileSidebarVisibility}
             changeToDark={changeToDark}
