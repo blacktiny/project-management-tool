@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Progress } from 'reactstrap'
 
 import './style.scss'
 
@@ -65,7 +66,7 @@ class TimeProgressBar extends Component {
   render() {
     const { stepTime, curTime } = this.state
 
-    const curPercent = curTime / stepTime
+    const curPercent = parseInt(curTime / stepTime)
 
     const timeLabel = this.getTimeLabel(curTime)
 
@@ -74,10 +75,9 @@ class TimeProgressBar extends Component {
         <div className='time-label'>{timeLabel}</div>
         <div className='progress-bar-content'>
           <div className='title'>Time</div>
-          <div className='container'>
-            <div className='fill-content' style={{ width: `${curPercent}%`}}></div>
+          <div className='progress-wrap progress-wrap--big'>
+            <Progress value={curPercent} />
           </div>
-          {/* <div className='percent-value'>{Number(curPercent).toFixed(2)} %</div> */}
         </div>
       </div>
     )
