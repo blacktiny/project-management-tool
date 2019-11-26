@@ -29,13 +29,10 @@ class TimeProgressBar extends Component {
   }
 
   componentWillUnmount() {
-    const { taskId, inProgress, hookBeforeInProgressTimerHide } = this.props
-    const { curTime } = this.state
+    const { inProgress } = this.props
 
     if (inProgress) {
       this.clearTimer()
-  
-      hookBeforeInProgressTimerHide(taskId, curTime)
     }
   }
 
@@ -93,7 +90,6 @@ TimeProgressBar.propTypes = {
   endTime: PropTypes.number.isRequired,
   inProgress: PropTypes.bool.isRequired,
   hookAfterTimerFinished: PropTypes.func.isRequired,
-  hookBeforeInProgressTimerHide: PropTypes.func
 }
 
 export default TimeProgressBar

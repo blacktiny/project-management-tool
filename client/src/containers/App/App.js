@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
 import { Redirect, Route, BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import store from '../stores/store'
-import Task from './Task'
-import './App.css'
+import store from '../../stores/store'
+import Router from './Router'
+import Task from '../Task'
+import 'bootstrap/dist/css/bootstrap.css';
+import '../../scss/app.scss'
 
-import logo from '../logo.svg'
+import logo from '../../logo.svg'
 
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
         <BrowserRouter>
-          <div className='app'>
+          {/* <div className='app'>
             <div className='navbar'>
               <div className='logo-section'>
                 <img src={logo} alt='logo' />
@@ -25,7 +27,8 @@ class App extends Component {
               <Route path='/task/:userId' component={Task} />
               <Redirect from='/task' to='/task/all' />
             </div>
-          </div>
+          </div> */}
+          <Router />
         </BrowserRouter>
       </Provider>
     )
