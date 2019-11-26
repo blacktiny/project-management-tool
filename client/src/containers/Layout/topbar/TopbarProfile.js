@@ -20,7 +20,7 @@ class TopbarProfile extends Component {
   }
 
   render() {
-    const { user, auth0 } = this.props
+    const { user } = this.props
     const { collapse } = this.state
 
     return (
@@ -32,7 +32,8 @@ class TopbarProfile extends Component {
             alt="avatar"
           />
           <p className="topbar__avatar-name">
-            { auth0.loading ? 'Loading...' : (auth0.user && auth0.user.name) || user.fullName}
+            {/* { auth0.loading ? 'Loading...' : (auth0.user && auth0.user.name) || user.fullName} */}
+            { user.fullName }
           </p>
           <DownIcon className="topbar__icon" />
         </button>
@@ -76,7 +77,7 @@ class TopbarProfile extends Component {
               path="/lock_screen"
               onClick={this.toggle}
             />
-            {auth0.isAuthenticated && (
+            {/* {auth0.isAuthenticated && (
               <TopbarMenuLink
                 title="Log Out Auth0"
                 icon="exit"
@@ -84,7 +85,7 @@ class TopbarProfile extends Component {
                 onClick={auth0.logout}
               />
             )
-            }
+            } */}
             <TopbarMenuLink
               title="Log Out"
               icon="exit"

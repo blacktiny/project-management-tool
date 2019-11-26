@@ -22,7 +22,7 @@ class SidebarContent extends Component {
       <div className='sidebar__content'>
         <ul className='sidebar__block'>
           <SidebarLink title='Dashboard' icon='home' route='/dashboard' onClick={this.hideSidebar} />
-          <SidebarLink title='Tasks' icon='book' route='/tasks' onClick={this.hideSidebar} />
+          <SidebarLink title='Tasks' icon='book' route='/tasks/all' onClick={this.hideSidebar} />
           <SidebarLink title='Members' icon='user' route='/members' onClick={this.hideSidebar} />
         </ul>
         <ul className='sidebar__block'>

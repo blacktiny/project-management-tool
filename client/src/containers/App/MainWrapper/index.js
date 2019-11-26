@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 

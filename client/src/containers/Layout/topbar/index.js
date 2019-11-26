@@ -9,25 +9,25 @@ class Topbar extends Component {
   static propTypes = {
     changeMobileSidebarVisibility: PropTypes.func.isRequired,
     changeSidebarVisibility: PropTypes.func.isRequired,
-    // user: UserProps.isRequired,
+    user: PropTypes.any.isRequired,
   }
 
   render() {
-    const { changeMobileSidebarVisibility, changeSidebarVisibility } = this.props
+    const { changeMobileSidebarVisibility, changeSidebarVisibility, user } = this.props
 
     return (
-      <div className="topbar">
-        <div className="topbar__wrapper">
-          <div className="topbar__left">
+      <div className='topbar'>
+        <div className='topbar__wrapper'>
+          <div className='topbar__left'>
             <TopbarSidebarButton
               changeMobileSidebarVisibility={changeMobileSidebarVisibility}
               changeSidebarVisibility={changeSidebarVisibility}
             />
-            <Link className="topbar__logo" to="/dashboard_default" />
+            <Link className='topbar__logo' to='/dashboard_default' />
           </div>
-          <div className="topbar__right">
+          <div className='topbar__right'>
             <TopbarNotification />
-            {/* <TopbarProfile user={user} /> */}
+            <TopbarProfile user={user} />
           </div>
         </div>
       </div>
