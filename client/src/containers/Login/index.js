@@ -1,14 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { Button } from 'reactstrap'
-import FirebaseIcon from 'mdi-react/FirebaseIcon'
-// import Loading from '../Loading'
 import LogInForm from './LogInForm'
-// import GoogleAuthBtn from '../../../containers/Account/AuthBtn/googleAuthBtn'
-// import FacebookAuthBtn from '../../../containers/Account/AuthBtn/fbAuthBtn'
-
+import FacebookAuthBtn from './AuthBtn/fbAuthBtn'
+import GoogleAuthBtn from './AuthBtn/googleAuthBtn'
 import { authLogin } from '../../stores/Auth/actions'
 
 class Login extends Component {
@@ -23,17 +18,11 @@ class Login extends Component {
 
   render() {
     const { user } = this.props
-    console.log('auth login = ', user.login)
 
     if (user.login) {
       return (<Redirect from='/log_in' to='/dashboard' />)
     }
-    // const {
-    //   loginWithRedirect, loading,
-    // } = useAuth0()
-    // if (loading) {
-    //   return (<Loading loading={loading} />)
-    // }
+
     return (
       <div className="account account--not-photo">
       <div className='account__wrapper'>
@@ -53,8 +42,8 @@ class Login extends Component {
             <p>Or Easily Using</p>
           </div>
           <div className='account__social'>
-            {/* <FacebookAuthBtn />
-            <GoogleAuthBtn /> */}
+            <FacebookAuthBtn />
+            <GoogleAuthBtn />
           </div>
         </div>
       </div>
