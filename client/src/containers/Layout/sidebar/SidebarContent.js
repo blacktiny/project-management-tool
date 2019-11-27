@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import SidebarLink from './SidebarLink'
 import SidebarCategory from './SidebarCategory'
@@ -16,14 +17,14 @@ class SidebarContent extends Component {
   }
 
   render() {
-    const { changeToLight, changeToDark } = this.props
+    const { user, changeToLight, changeToDark } = this.props
 
     return (
       <div className='sidebar__content'>
         <ul className='sidebar__block'>
           <SidebarLink title='Dashboard' icon='home' route='/dashboard' onClick={this.hideSidebar} />
-          <SidebarLink title='Tasks' icon='book' route='/tasks/all' onClick={this.hideSidebar} />
-          <SidebarLink title='Members' icon='user' route='/members' onClick={this.hideSidebar} />
+          <SidebarLink title='Tasks' icon='book' route='/tasks' onClick={this.hideSidebar} />
+          {user.role === 'manager' && <SidebarLink title='Members' icon='user' route='/members' onClick={this.hideSidebar} />}
         </ul>
         <ul className='sidebar__block'>
           <SidebarCategory title='Account' icon='user'>
@@ -46,4 +47,8 @@ class SidebarContent extends Component {
   }
 }
 
-export default SidebarContent
+const state = ({ user }) => ({
+  user: user.user
+})
+
+export default connect(state)(SidebarContent)
