@@ -1,16 +1,9 @@
-export const AUTHENTICATE = 'AUTHENTICATE'
-export const AUTHENTICATE_ERROR_AUTH = 'AUTHENTICATE_ERROR_AUTH'
+import actionTypes from '../../constants/actionTypes'
+import { api } from '../api'
 
-export function auth({ name, avatar }) {
-  return {
-    type: AUTHENTICATE,
-    user: { name, avatar },
+export const authLogin = (data) => (
+  {
+    type: actionTypes.AUTH_LOGIN,
+    data
   }
-}
-
-export function authError(error) {
-  return {
-    type: AUTHENTICATE_ERROR_AUTH,
-    error,
-  }
-}
+)

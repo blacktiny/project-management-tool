@@ -18,6 +18,16 @@ function apiCall(url, data) {
 }
 
 export const api = (action) => async (dispatch) => {
+  dispatch({
+    type: action.type+'/start',
+    data: action.data
+  })
   const resp = await apiCall(action.url, action.data)
+  if (resp.data) {
+    dispatch({
+      type: action.type+'/success',
+      data: resp.data
+    })
+  }
   console.log('resp = ', resp)
 }

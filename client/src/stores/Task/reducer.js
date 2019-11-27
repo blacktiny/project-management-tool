@@ -60,7 +60,7 @@ let initialState = {
       startTime: 40,
       endTime: 200,
       systemTime: -1,
-      progressPercent: 40,
+      progressPercent: 100,
       comments: [
         {
           comment: 'debugging',
@@ -121,6 +121,12 @@ export default createProducer(initialState, {
 
   [actionTypes.ADD_NEW_TASK]: (task, { data }) => {
     task.data.push(data.newTask)
+  },
+
+  [actionTypes.DELETE_TASK]: (task, { data }) => {
+    const { taskId } = data
+    const index = task.data.findIndex(item => { return item.id === taskId })
+    task.data.splice(index, 1)
   },
 
   [actionTypes.START_TIMER]: (task, { data }) => {

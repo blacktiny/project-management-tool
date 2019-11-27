@@ -1,20 +1,19 @@
-import {
-  AUTHENTICATE,
-  AUTHENTICATE_ERROR_AUTH,
-} from './actions'
+import actionTypes from '../../constants/actionTypes'
+import { createProducer } from '../reducers/utilities'
 
-const initialState = {
-  fullName: 'YinYong',
-  avatar: '',
-}
-
-export default function (state = initialState, action) {
-  switch (action.type) {
-    case AUTHENTICATE:
-      return { fullName: action.user.name, avatar: action.user.avatar }
-    case AUTHENTICATE_ERROR_AUTH:
-      return { error: action.error }
-    default:
-      return state
+let initialState = {
+  login: false,
+  user: {
+    id: 'lightFury',
+    name: 'YinYong',
+    avatar: '',
+    role: 'developer'
   }
 }
+
+export default createProducer(initialState, {
+
+  [actionTypes.AUTH_LOGIN]: (auth, { data }) => {
+    auth.login = true
+  }
+})

@@ -21,6 +21,13 @@ export const addNewTask = (newTask) => (
   }
 )
 
+export const deleteTask = (taskId) => (
+  {
+    type: actionTypes.DELETE_TASK,
+    data: { taskId }
+  }
+)
+
 export const updateTaskStatus = (index, key, value) => (
   {
     type: actionTypes.START_TIMER,

@@ -4,7 +4,7 @@ import {
 } from './actions'
 
 const initialState = {
-  className: 'theme-dark',
+  className: 'theme-light',
 }
 
 export default function (state = initialState, action) {
