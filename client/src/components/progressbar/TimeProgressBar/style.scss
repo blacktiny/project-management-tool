@@ -4,7 +4,7 @@
   padding-bottom: 8px;
 
   .progress-wrap {
-    width: calc(100% - 80px);
+    width: calc(100% - 90px);
     padding: 2px 0;
   }
 
@@ -19,14 +19,14 @@
     display: flex;
 
     .title {
-      width: 80px;
+      width: 90px;
       text-align: right;
       color: #646777;
-      padding-right: 10px;
+      padding-right: 20px;
     }
 
     .container {
-      width: calc(100% - 80px);
+      width: calc(100% - 90px);
       height: 20px;
       background-color: #dedede;
       border: 1px solid #dddddd;
