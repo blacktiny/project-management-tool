@@ -4,6 +4,10 @@ export default {
   AUTH_LOGIN_START: 'auth/login/start',
   AUTH_LOGIN_SUCCESS: 'auth/login/success',
 
+  AUTH_REGISTER: 'auth/register',
+  AUTH_REGISTER_START: 'auth/register/start',
+  AUTH_REGISTER_REGISTER: 'auth/register/success',
+
   // Task
   GET_TASKS: 'task/get',
   GET_TASKS_START: 'task/get/start',

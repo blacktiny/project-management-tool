@@ -7,3 +7,10 @@ export const authLogin = (data) => (
     data
   }
 )
+
+export const authRegister = (data) => (
+  {
+    type: actionTypes.AUTH_REGISTER,
+    data
+  }
+)
