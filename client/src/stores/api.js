@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const hostAPIURL = 'http://localhost:5000'
+const hostAPIURL = 'http://localhost:5000/'
 
 function apiCall(url, data) {
   let config = {
@@ -18,16 +18,17 @@ function apiCall(url, data) {
 }
 
 export const api = (action) => async (dispatch) => {
+  let data = action.data
   dispatch({
     type: action.type+'/start',
-    data: action.data
+    data
   })
-  const resp = await apiCall(action.url, action.data)
+  let requestURL = action.type
+  const resp = await apiCall(requestURL, action.data)
   if (resp.data) {
     dispatch({
       type: action.type+'/success',
       data: resp.data
     })
   }
-  console.log('resp = ', resp)
 }
