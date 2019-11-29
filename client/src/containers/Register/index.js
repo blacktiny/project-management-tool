@@ -18,16 +18,16 @@ class Register extends PureComponent {
   }
 
   render() {
-    const { user } = this.props
+    const { auth } = this.props
     const { error } = this.state
 
-    if (user.action === 'register' && !user.error) {
+    if (auth.action === 'register' && !auth.error) {
       return (<Redirect from='/register' to='/log_in' />)
     }
 
     return (
       <div className='account account--not-photo'>
-        {user.action === 'register' && user.loading && <div className='loading'><LoadingIcon /></div>}
+        {auth.action === 'register' && auth.loading && <div className='loading'><LoadingIcon /></div>}
         <div className='account__wrapper'>
           <div className='account__card'>
             <div className='account__head'>
@@ -49,8 +49,8 @@ class Register extends PureComponent {
   }
 }
 
-const state = ({ user }) => ({
-  user: user
+const state = ({ auth }) => ({
+  auth: auth
 })
 
 const actions = ({

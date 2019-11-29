@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Progress } from 'reactstrap'
+import { } from '../../../stores/Task/actions'
 
 import './style.scss'
 
@@ -15,10 +17,10 @@ class TimeProgressBar extends Component {
   }
 
   componentDidMount() {
-    const { endTime, startTime, inProgress } = this.props
+    const { user, userName, endTime, startTime, inProgress } = this.props
     this.setState({ stepTime: endTime / 100, curTime: startTime })
 
-    if (inProgress) this.timer = setInterval(this.intervalTimeFunc, 1000)
+    if (user.username === userName && inProgress) this.timer = setInterval(this.intervalTimeFunc, 1000)
   }
 
   componentDidUpdate(prevProps) {
@@ -86,10 +88,19 @@ class TimeProgressBar extends Component {
 
 TimeProgressBar.propTypes = {
   taskId: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
   startTime: PropTypes.number.isRequired,
   endTime: PropTypes.number.isRequired,
   inProgress: PropTypes.bool.isRequired,
   hookAfterTimerFinished: PropTypes.func.isRequired,
 }
 
-export default TimeProgressBar
+const state = ({ auth }) => ({
+  user: auth.user
+})
+
+const actions = ({
+
+})
+
+export default connect(state, actions)(TimeProgressBar)

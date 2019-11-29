@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { Col, Container, Row } from 'reactstrap'
 
 class Dashboard extends Component {
   render() {
+    const { auth } = this.props
+
+    if (!auth.login) return (<Redirect from='/dashboard' to='/log_in' />)
+
     return (
       <Container>
         <Row>
@@ -11,11 +17,15 @@ class Dashboard extends Component {
           </Col>
         </Row>
         <Row>
-          
+
         </Row>
       </Container>
     )
   }
 }
 
-export default Dashboard
+const state = ({ auth }) => ({
+  auth: auth
+})
+
+export default connect(state)(Dashboard)

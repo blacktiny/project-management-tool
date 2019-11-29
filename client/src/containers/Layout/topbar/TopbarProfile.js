@@ -33,7 +33,7 @@ class TopbarProfile extends Component {
           />
           <p className="topbar__avatar-name">
             {/* { auth0.loading ? 'Loading...' : (auth0.user && auth0.user.name) || user.fullName} */}
-            { user.user.name }
+            { user.fullName }
           </p>
           <DownIcon className="topbar__icon" />
         </button>

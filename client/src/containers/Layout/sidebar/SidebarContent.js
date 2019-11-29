@@ -47,8 +47,8 @@ class SidebarContent extends Component {
   }
 }
 
-const state = ({ user }) => ({
-  user: user.user
+const state = ({ auth }) => ({
+  user: auth.user
 })
 
 export default connect(state)(SidebarContent)

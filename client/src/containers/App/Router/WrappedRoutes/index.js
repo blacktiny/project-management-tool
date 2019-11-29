@@ -9,6 +9,7 @@ export default () => (
   <div>
     <Layout />
     <div className='container__wrap'>
+      <Redirect from='/' to='/dashboard' />
       <Route path='/dashboard' component={Dashboard} />
       <Route path='/tasks' component={Task} />
       {/* <Route path='/account' component={Account} /> */}

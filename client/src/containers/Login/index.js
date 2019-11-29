@@ -18,15 +18,15 @@ class Login extends Component {
   }
 
   render() {
-    const { user } = this.props
+    const { auth } = this.props
 
-    if (user.login) {
+    if (auth.login) {
       return (<Redirect from='/log_in' to='/dashboard' />)
     }
 
     return (
       <div className='account account--not-photo'>
-        {user.action === 'login' && user.loading && <div className='loading'><LoadingIcon /></div>}
+        {auth.action === 'login' && auth.loading && <div className='loading'><LoadingIcon /></div>}
         <div className='account__wrapper'>
           <div className='account__card'>
             <div className='account__head'>
@@ -54,8 +54,8 @@ class Login extends Component {
   }
 }
 
-const state = ({ user }) => ({
-  user: user
+const state = ({ auth }) => ({
+  auth: auth
 })
 
 const actions = ({

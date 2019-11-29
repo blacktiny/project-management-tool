@@ -59,8 +59,8 @@ class Layout extends Component {
   }
 }
 
-const state = ({ user, sidebar, theme }) => ({
-  user: user,
+const state = ({ auth, sidebar, theme }) => ({
+  user: auth.user,
   sidebar: sidebar,
   theme: theme
 })
