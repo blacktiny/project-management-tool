@@ -10,13 +10,11 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap'
 import ChevronDownIcon from 'mdi-react/ChevronDownIcon'
-
+import LoadingIcon from 'mdi-react/LoadingIcon'
 import CommentBox from './TaskCommentBox'
-
 import ResizableProgressBar from '../../../components/progressbar/ResizableProgressBar'
 import TimeProgressBar from '../../../components/progressbar/TimeProgressBar'
-
-import { getTasksByUserId, addNewTask, deleteTask, updateTaskStatus } from '../../../stores/Task/actions'
+import { getTasks, addNewTask, deleteTask, updateTaskStatus } from '../../../stores/Task/actions'
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -39,14 +37,15 @@ class Task extends Component {
   }
 
   componentDidMount() {
-    const { tasks } = this.props
-    this.setState({ items: tasks })
+    const { getTasksAction } = this.props
+
+    getTasksAction()
   }
 
   componentDidUpdate(prevProps, prevStete) {
     const { tasks } = this.props
 
-    if (prevProps.tasks !== tasks) this.setState({ items: tasks })
+    if (prevProps.tasks !== tasks) this.setState({ items: tasks.data })
   }
 
   resizeProgressBarFunc = (index, curPercent) => {
@@ -74,23 +73,23 @@ class Task extends Component {
 
   onTimerStart = (taskId) => {
     const { tasks, updateTaskStatusAction } = this.props
-    const index = tasks.findIndex(item => { return item.id === taskId })
-    updateTaskStatusAction(index, 'inProgress', !tasks[index].inProgress)
+    const index = tasks.data.findIndex(item => { return item.id === taskId })
+    updateTaskStatusAction(index, 'inProgress', !tasks.data[index].inProgress)
   }
 
   onTimerFinished = (taskId) => {
     const { tasks, updateTaskStatusAction } = this.props
 
-    const index = tasks.findIndex(item => { return item.id === taskId })
+    const index = tasks.data.findIndex(item => { return item.id === taskId })
     updateTaskStatusAction(index, 'isFinished', true)
   }
 
   onAddNewTask = () => {
-    const { addNewTaskAction } = this.props
+    const { user, addNewTaskAction } = this.props
     const curTime = new Date().getTime()
     const newTask = {
       id: 'newTask_' + curTime,
-      userId: 'user_' + curTime,
+      username: user.username,
       inProgress: false,
       isFinished: false,
       isShow: true,
@@ -117,12 +116,14 @@ class Task extends Component {
   }
 
   render() {
+    const { user, tasks } = this.props
     const progressbarInfo = {
       resizeFunc: this.resizeProgressBarFunc
     }
 
     return (
       <div className='task'>
+        {tasks.loading && <div className='loading'><LoadingIcon /></div>}
         <div className='task-content'>
           <div className='task-content-header'>
             <Button className='btn-add-task' onClick={this.onAddNewTask}>Add Task</Button>
@@ -147,9 +148,11 @@ class Task extends Component {
                               <div className='progress-bar-group-header'>
                                 <Button
                                   color='danger'
-                                  disabled={item.isFinished}
+                                  disabled={user.username !== item.username || item.isFinished}
                                   className='btn-timer'
-                                  onClick={() => this.onTimerStart(item.id)}>{item.inProgress ? 'Stop' : 'Start'}
+                                  onClick={() => this.onTimerStart(item.id)}
+                                >
+                                  {item.inProgress ? 'Stop' : 'Start'}
                                 </Button>
                                 <div className='header-title' {...provided.dragHandleProps}>Title - junefox chat</div>
                                 <UncontrolledDropdown>
@@ -166,6 +169,7 @@ class Task extends Component {
                                   <div {...provided.dragHandleProps}>
                                     <TimeProgressBar
                                       taskId={item.id}
+                                      userName={item.username}
                                       startTime={item.startTime}
                                       endTime={item.endTime}
                                       inProgress={item.inProgress}
@@ -197,12 +201,13 @@ class Task extends Component {
   }
 }
 
-const state = ({ tasks }) => ({
-  tasks: tasks.data
+const state = ({ auth, tasks }) => ({
+  user: auth.user,
+  tasks: tasks
 })
 
 const actions = ({
-  getTasksByUserIdAction: getTasksByUserId,
+  getTasksAction: getTasks,
   addNewTaskAction: addNewTask,
   deleteTaskAction: deleteTask,
   updateTaskStatusAction: updateTaskStatus

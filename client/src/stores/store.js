@@ -9,7 +9,7 @@ import tasksReducer from './Task/reducer'
 const store = createStore(
   combineReducers({
     form: reduxFormReducer,
-    user: authReducer,
+    auth: authReducer,
     tasks: tasksReducer,
     sidebar: sidebarReducer,
     theme: themeReducer

@@ -7,10 +7,12 @@ let initialState = {
   action: '',
   error: '',
   user: {
-    id: 'lightFury',
-    name: 'YinYong',
+    username: '',
+    email: '',
+    pwd: '',
+    fullName: '',
     avatar: '',
-    role: 'developer'
+    role: ''
   }
 }
 
