@@ -1,15 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Scrollbar from 'react-smooth-scrollbar'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import {
   Button,
-  ButtonGroup,
-  ButtonToolbar,
-  Card,
-  CardBody,
-  Col,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
@@ -32,8 +26,6 @@ const reorder = (list, startIndex, endIndex) => {
 
   return result
 }
-
-const mockup = []
 
 class Task extends Component {
   constructor(props) {

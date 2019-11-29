@@ -6,7 +6,7 @@ export default {
 
   AUTH_REGISTER: 'auth/register',
   AUTH_REGISTER_START: 'auth/register/start',
-  AUTH_REGISTER_REGISTER: 'auth/register/success',
+  AUTH_REGISTER_SUCCESS: 'auth/register/success',
 
   // Task
   GET_TASKS: 'task/get',
@@ -14,6 +14,10 @@ export default {
   GET_TASKS_SUCCESS: 'task/get/success',
   GET_TASK_DETAIL: 'task/detail',
   ADD_NEW_TASK: 'task/add',
+  ADD_NEW_TASK_START: 'task/add/start',
+  ADD_NEW_TASK_SUCCESS: 'task/add/success',
   DELETE_TASK: 'task/delete',
+  DELETE_TASK_START: 'task/delete/start',
+  DELETE_TASK_SUCCESS: 'task/delete/success',
   START_TIMER: 'task/timer/start'
 }

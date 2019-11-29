@@ -21,7 +21,7 @@
     height: 4px;
     @include directify($directions) {
       text-align: directed('right');
-      #{directed('padding-right')}: 10px;
+      // #{directed('padding-right')}: 10px;
     }
     font-size: 9px;
     line-height: 13px;
