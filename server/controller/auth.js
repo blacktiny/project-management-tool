@@ -4,6 +4,7 @@ const users = [
     email: 'blacktiny126@hotmail.com',
     pwd: '123',
     fullName: 'Li YinYong',
+    avatar: '',
     role: 'developer'
   },
   {
@@ -11,6 +12,7 @@ const users = [
     email: '',
     pwd: '123456',
     fullName: 'Anton Kochetov',
+    avatar: '',
     role: 'manager'
   },
   {
@@ -18,6 +20,7 @@ const users = [
     email: '',
     pwd: 'dream123456',
     fullName: 'Xianru Xian',
+    avatar: '',
     role: 'developer'
   }
 ]

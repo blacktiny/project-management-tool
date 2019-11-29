@@ -1,7 +1,7 @@
 const tasks = [
   {
     id: 'aaaaa',
-    userId: 'anton',
+    username: 'anton',
     inProgress: false,
     isFinished: false,
     isShow: true,
@@ -28,7 +28,7 @@ const tasks = [
   },
   {
     id: 'bbbbb',
-    userId: 'xianru',
+    username: 'xian123',
     inProgress: true,
     isFinished: false,
     isShow: true,
@@ -49,7 +49,7 @@ const tasks = [
   },
   {
     id: 'ccccc',
-    userId: 'yinyong',
+    username: 'lightFury',
     inProgress: false,
     isFinished: false,
     isShow: true,
@@ -70,7 +70,7 @@ const tasks = [
   },
   {
     id: 'ddddd',
-    userId: 'yinyong',
+    username: 'lightFury',
     inProgress: false,
     isFinished: false,
     isShow: true,
@@ -91,10 +91,25 @@ const tasks = [
   }
 ]
 
-exports.load = async function (data) {
-  const { userId } = data
+exports.get = async function (data) {
+  const resp = {
+    tasks: null
+  }
 
-  let picked = userId === 'all' ? tasks : tasks.find(item => item.userId === userId)
+  resp.tasks = tasks
 
-  return { data: picked }
+  return { data: resp }
+}
+
+exports.add = async function (data) {
+  const { newTask } = data
+  const resp = {
+    tasks: null,
+    error: ''
+  }
+  
+  tasks.push(newTask)
+  resp.tasks = tasks
+
+  return { data: resp }
 }
