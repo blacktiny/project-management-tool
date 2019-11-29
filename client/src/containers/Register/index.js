@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import LoadingIcon from 'mdi-react/LoadingIcon'
 import RegisterForm from './RegisterForm'
 import { authRegister } from '../../stores/Auth/actions'
 
@@ -16,9 +18,16 @@ class Register extends PureComponent {
   }
 
   render() {
+    const { user } = this.props
     const { error } = this.state
+
+    if (user.action === 'register' && !user.error) {
+      return (<Redirect from='/register' to='/log_in' />)
+    }
+
     return (
       <div className='account account--not-photo'>
+        {user.action === 'register' && user.loading && <div className='loading'><LoadingIcon /></div>}
         <div className='account__wrapper'>
           <div className='account__card'>
             <div className='account__head'>
@@ -29,7 +38,7 @@ class Register extends PureComponent {
               </h3>
               <h4 className='account__subhead subhead'>Create an account</h4>
             </div>
-            <RegisterForm onSubmit={this.onRegister} errorMessage={error} />
+            <RegisterForm onSubmit={this.onRegister} />
             <div className='account__have-account'>
               <p>Already have an account? <Link to='/log_in'>Login</Link></p>
             </div>
@@ -40,11 +49,11 @@ class Register extends PureComponent {
   }
 }
 
-const state = ({ auth }) => ({
-  auth: auth
+const state = ({ user }) => ({
+  user: user
 })
 
-const actions = () => ({
+const actions = ({
   authRegisterAction: authRegister
 })
 

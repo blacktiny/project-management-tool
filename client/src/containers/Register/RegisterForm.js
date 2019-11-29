@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, Form } from 'redux-form'
 import EyeIcon from 'mdi-react/EyeIcon'
 import KeyVariantIcon from 'mdi-react/KeyVariantIcon'
 import AccountOutlineIcon from 'mdi-react/AccountOutlineIcon'
@@ -36,7 +36,7 @@ class RegisterForm extends PureComponent {
     const { showPassword } = this.state
 
     return (
-      <form className='form' onSubmit={handleSubmit}>
+      <Form className='form' onSubmit={handleSubmit}>
         <Alert
           color='danger'
           isOpen={!!errorMessage}
@@ -98,7 +98,7 @@ class RegisterForm extends PureComponent {
             Sign Up
           </Button>
         </div>
-      </form>
+      </Form>
     )
   }
 }

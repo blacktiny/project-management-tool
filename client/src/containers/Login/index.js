@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import LoadingIcon from 'mdi-react/LoadingIcon'
 import LogInForm from './LogInForm'
 import FacebookAuthBtn from './AuthBtn/fbAuthBtn'
 import GoogleAuthBtn from './AuthBtn/googleAuthBtn'
@@ -24,29 +25,30 @@ class Login extends Component {
     }
 
     return (
-      <div className="account account--not-photo">
-      <div className='account__wrapper'>
-        <div className='account__card'>
-          <div className='account__head'>
-            <h3 className='account__title'>Welcome to
-              <span className='account__logo'> Easy
-                <span className='account__logo-accent'>DEV</span>
-              </span>
-            </h3>
-            <h4 className='account__subhead subhead'>Start your business easily</h4>
-          </div>
-          <LogInForm
-            onSubmit={this.onLogin}
-          />
-          <div className='account__or'>
-            <p>Or Easily Using</p>
-          </div>
-          <div className='account__social'>
-            <FacebookAuthBtn />
-            <GoogleAuthBtn />
+      <div className='account account--not-photo'>
+        {user.action === 'login' && user.loading && <div className='loading'><LoadingIcon /></div>}
+        <div className='account__wrapper'>
+          <div className='account__card'>
+            <div className='account__head'>
+              <h3 className='account__title'>Welcome to
+                <span className='account__logo'> Easy
+                  <span className='account__logo-accent'>DEV</span>
+                </span>
+              </h3>
+              <h4 className='account__subhead subhead'>Start your business easily</h4>
+            </div>
+            <LogInForm
+              onSubmit={this.onLogin}
+            />
+            <div className='account__or'>
+              <p>Or Easily Using</p>
+            </div>
+            <div className='account__social'>
+              <FacebookAuthBtn />
+              <GoogleAuthBtn />
+            </div>
           </div>
         </div>
-      </div>
       </div>
     )
   }
