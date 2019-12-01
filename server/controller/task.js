@@ -2,17 +2,16 @@ const tasks = [
   {
     id: 'aaaaa',
     username: 'anton',
-    inProgress: false,
-    isFinished: false,
-    isShow: true,
+    status: '',   // backlog, progress, done, completed
+    timeStatus: 1,  // 0: play, 1: pause, 2: end
 
     // TimeProgressBar Props
-    startTime: 40,
+    startTime: 0,
     endTime: 60,
-    systemTime: -1,
+    systemTime: 0,
 
     // ResizableProgressBar Props
-    progressPercent: 80,
+    progressPercent: 0,
 
     // comments
     comments: [
@@ -29,12 +28,11 @@ const tasks = [
   {
     id: 'bbbbb',
     username: 'xian123',
-    inProgress: true,
-    isFinished: false,
-    isShow: true,
-    startTime: 50,
+    status: '',
+    timeStatus: 1,
+    startTime: 0,
     endTime: 60,
-    systemTime: -1,
+    systemTime: 0,
     progressPercent: 0,
     comments: [
       {
@@ -50,13 +48,12 @@ const tasks = [
   {
     id: 'ccccc',
     username: 'lightFury',
-    inProgress: false,
-    isFinished: false,
-    isShow: true,
-    startTime: 40,
+    status: '',
+    timeStatus: 1,
+    startTime: 0,
     endTime: 200,
-    systemTime: -1,
-    progressPercent: 40,
+    systemTime: 0,
+    progressPercent: 0,
     comments: [
       {
         comment: 'debugging',
@@ -71,13 +68,12 @@ const tasks = [
   {
     id: 'ddddd',
     username: 'lightFury',
-    inProgress: false,
-    isFinished: false,
-    isShow: true,
-    startTime: 100,
+    status: '',
+    timeStatus: 1,
+    startTime: 0,
     endTime: 1000,
-    systemTime: -1,
-    progressPercent: 10,
+    systemTime: 0,
+    progressPercent: 0,
     comments: [
       {
         comment: 'in progress',
@@ -104,12 +100,82 @@ exports.get = async function (data) {
 exports.add = async function (data) {
   const { newTask } = data
   const resp = {
-    tasks: null,
+    newTask: null,
     error: ''
   }
   
   tasks.push(newTask)
-  resp.tasks = tasks
+  resp.newTask = newTask
+
+  return { data: resp }
+}
+
+exports.delete = async function (data) {
+  const { taskId } = data
+  const resp = {
+    taskId: '',
+    error: ''
+  }
+  
+  const index = tasks.findIndex(item => item.id === taskId)
+  tasks.splice(index, 1)
+  resp.taskId = taskId
+
+  return { data: resp }
+}
+
+exports.update = async function (data) {
+  const { taskId, key, value } = data
+  const resp = {
+    updatedTask: null,
+    error: ''
+  }
+  
+  const index = tasks.findIndex(item => item.id === taskId)
+
+  switch (key) {
+    case 'timeStatus':
+      {
+        switch (value) {
+          case 0:
+            {
+              const time_now = new Date().getTime()
+              if (tasks[index].systemTime !== 0) {  // resume
+                tasks[index].startTime += parseInt((time_now - tasks[index].systemTime) / 1000)
+              } else {  // start
+                tasks[index].startTime = 0
+              }
+              tasks[index].systemTime = time_now
+              if (tasks[index].startTime > tasks[index].endTime) {
+                tasks[index].timeStatus = 2
+                tasks[index].startTime = tasks[index].endTime
+              } else {
+                tasks[index].timeStatus = 0
+              }
+            }
+            break
+          case 1:
+            {
+              const time_now = new Date().getTime()
+              tasks[index].startTime += parseInt((time_now - tasks[index].systemTime) / 1000)
+              tasks[index].systemTime = time_now
+              tasks[index].timeStatus = 1
+            }
+            break
+          case 2:
+            {
+              tasks[index].startTime = tasks[index].endTime
+              tasks[index].timeStatus = 2
+            }
+            break
+        }
+      }
+      break
+    default:
+      break
+  }
+
+  resp.updatedTask = tasks[index]
 
   return { data: resp }
 }
