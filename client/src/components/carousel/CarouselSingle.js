@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
 import Slider from 'react-slick'
 import PropTypes from 'prop-types'
 
@@ -15,7 +14,7 @@ class CarouselSingle extends PureComponent {
   }
 
   render() {
-    const { children, rtl } = this.props
+    const { children } = this.props
     // all settings: https://github.com/akiran/react-slick
     const settings = {
       infinite: true,

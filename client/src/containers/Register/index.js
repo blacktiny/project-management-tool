@@ -19,7 +19,6 @@ class Register extends PureComponent {
 
   render() {
     const { auth } = this.props
-    const { error } = this.state
 
     if (auth.action === 'register' && !auth.error) {
       return (<Redirect from='/register' to='/log_in' />)

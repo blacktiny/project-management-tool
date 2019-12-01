@@ -37,7 +37,7 @@ export default createProducer(initialState, {
   },
 
   [actionTypes.AUTH_REGISTER_SUCCESS]: (auth, { data }) => {
-    const { user, error } = data
+    const { error } = data
     auth.loading = false
     auth.error = error
   }

@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { Field, reduxForm, Form } from 'redux-form'
-import { connect } from 'react-redux'
 import EyeIcon from 'mdi-react/EyeIcon'
 import KeyVariantIcon from 'mdi-react/KeyVariantIcon'
 import AccountOutlineIcon from 'mdi-react/AccountOutlineIcon'

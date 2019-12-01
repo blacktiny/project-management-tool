@@ -17,7 +17,7 @@ class AuthFacebookeBtn extends Component {
   }
 
   responseSuccess = (response) => {
-    const { dispatch, history } = this.props
+    const { history } = this.props
     if (response.status) {
       // dispatch(authError('Some error'))
     } else {

@@ -16,17 +16,17 @@ class AuthGoogleBtn extends Component {
     }).isRequired,
   }
 
-  responseSuccess = (response) => {
-    const { dispatch, history } = this.props
-    // dispatch(auth({ name: response.profileObj.name, avatar: response.profileObj.imageUrl }))
-    // localStorage.setItem('easydev', response.accessToken)
-    history.push('/dashboard')
-  }
+  // responseSuccess = (response) => {
+  //   const { dispatch, history } = this.props
+  //   dispatch(auth({ name: response.profileObj.name, avatar: response.profileObj.imageUrl }))
+  //   localStorage.setItem('easydev', response.accessToken)
+  //   history.push('/dashboard')
+  // }
 
-  responseError = (response) => {
-    const { dispatch } = this.props
-    // dispatch(authError(response.error))
-  }
+  // responseError = (response) => {
+  //   const { dispatch } = this.props
+  //   dispatch(authError(response.error))
+  // }
 
 
   render() {
@@ -42,8 +42,8 @@ class AuthGoogleBtn extends Component {
             <GooglePlusIcon />
           </button>
         )}
-        onSuccess={this.responseSuccess}
-        onFailure={this.responseError}
+        // onSuccess={this.responseSuccess}
+        // onFailure={this.responseError}
         cookiePolicy='single_host_origin'
       />
     )
