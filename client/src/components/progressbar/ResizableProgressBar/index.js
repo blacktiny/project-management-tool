@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { ResizableBox } from 'react-resizable'
 
@@ -14,7 +15,7 @@ class ResizableProgressBar extends Component {
         width: 300,
         height: 16,
         axis: 'x',
-        handle: (<strong className='resize-handler'></strong>),
+        handle: (<strong className='resize-handler' />),
         minConstraints: [0, Infinity],
         maxConstraints: [Infinity, Infinity],
         onResizeStop: this.resize
@@ -24,10 +25,10 @@ class ResizableProgressBar extends Component {
 
   resize = (e, data) => {
     const { maxWidth } = this.state
-    const { index, resizeFunc } = this.props
+    const { taskId, resizeFunc } = this.props
     const curPercent = data.size.width / maxWidth * 100
 
-    resizeFunc(index, curPercent)
+    resizeFunc(taskId, curPercent)
   }
 
   /**
@@ -35,7 +36,7 @@ class ResizableProgressBar extends Component {
    */
   updateDimensions() {
     let { resizableInfo } = this.state
-    const maxWidth = window.innerWidth - 810
+    const maxWidth = window.innerWidth - 770
 
     resizableInfo.maxConstraints = [maxWidth, Infinity]
     this.setState({ maxWidth, resizableInfo })
@@ -45,15 +46,22 @@ class ResizableProgressBar extends Component {
    * Add window resize event listener
    */
   componentDidMount() {
-    this.updateDimensions();
-    window.addEventListener("resize", this.updateDimensions.bind(this));
+    this.updateDimensions()
+    window.addEventListener('resize', this.updateDimensions.bind(this))
+
+    const { resizableInfo } = this.state
+    const { user, userName } = this.props
+
+    if (userName !== user.username) {
+      resizableInfo.handle = (<strong className='resize-handler disable' />)
+    }
   }
 
   /**
    * Remove window resize event listener
    */
   componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions.bind(this));
+    window.removeEventListener('resize', this.updateDimensions.bind(this))
   }
 
   render() {
@@ -77,8 +85,13 @@ class ResizableProgressBar extends Component {
 }
 
 ResizableProgressBar.propTypes = {
-  index: PropTypes.number.isRequired,
+  taskId: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
   percent: PropTypes.number.isRequired
 }
 
-export default ResizableProgressBar
+const state = ({ auth }) => ({
+  user: auth.user
+})
+
+export default connect(state)(ResizableProgressBar)

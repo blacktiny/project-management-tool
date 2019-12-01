@@ -181,6 +181,9 @@ exports.update = async function (data) {
       }
       break
     default:
+      {
+        tasks[index][key] = value
+      }
       break
   }
 

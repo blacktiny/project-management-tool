@@ -44,6 +44,10 @@
         box-shadow: 1px 1px 2px #005696;
         cursor: col-resize;
       }
+
+      .resize-handler.disable {
+        pointer-events: none;
+      }
     
       .order {
         height: 100%;

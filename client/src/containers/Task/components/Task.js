@@ -50,10 +50,10 @@ class Task extends Component {
     }
   }
 
-  resizeProgressBarFunc = (index, curPercent) => {
+  resizeProgressBarFunc = (taskId, curPercent) => {
     const { updateTaskStatusAction } = this.props
 
-    updateTaskStatusAction(index, 'progressPercent', curPercent)
+    updateTaskStatusAction(taskId, 'progressPercent', curPercent)
   }
 
   onDragEnd(result) {
@@ -186,7 +186,8 @@ class Task extends Component {
                                     />
                                   </div>
                                   <ResizableProgressBar
-                                    index={index}
+                                    taskId={item.id}
+                                    userName={item.username}
                                     percent={item.progressPercent}
                                     {...progressbarInfo}
                                   />
