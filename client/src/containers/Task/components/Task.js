@@ -46,7 +46,9 @@ class Task extends Component {
   componentDidUpdate(prevProps, prevStete) {
     const { tasks } = this.props
 
-    if (prevProps.tasks !== tasks) this.setState({ items: tasks.data })
+    if (prevProps.tasks.data !== tasks.data) {
+      this.setState({ items: tasks.data })
+    }
   }
 
   resizeProgressBarFunc = (index, curPercent) => {

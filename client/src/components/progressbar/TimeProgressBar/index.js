@@ -12,7 +12,8 @@ class TimeProgressBar extends Component {
 
     this.state = {
       stepTime: 0,
-      curTime: 0
+      curTime: 0,
+      timer: -1
     }
   }
 
@@ -20,14 +21,27 @@ class TimeProgressBar extends Component {
     const { user, userName, endTime, startTime, inProgress } = this.props
     this.setState({ stepTime: endTime / 100, curTime: startTime })
 
-    if (user.username === userName && inProgress) this.timer = setInterval(this.intervalTimeFunc, 1000)
+    if (user.username === userName && inProgress) {
+      const timer = setInterval(this.intervalTimeFunc, 1000)
+      this.setState({ timer })
+    }
   }
 
   componentDidUpdate(prevProps) {
-    const { inProgress } = this.props
-    if (prevProps.inProgress !== inProgress) {
-      if (inProgress) this.timer = setInterval(this.intervalTimeFunc, 1000)
-      else this.clearTimer()
+    const { timer } = this.state
+    const { user, userName, startTime, inProgress } = this.props
+
+    if (prevProps !== this.props) {
+      if (user.username === userName && inProgress) {
+        if (timer === -1) {
+          const newTimer = setInterval(this.intervalTimeFunc, 1000)
+          this.setState({ timer: newTimer })
+        }
+      } else {
+        this.clearTimer()
+      }
+
+      this.setState({ curTime: startTime })
     }
   }
 
@@ -45,7 +59,7 @@ class TimeProgressBar extends Component {
 
     curTime ++
 
-    if (curTime === endTime) {
+    if (curTime > endTime) {
       clearInterval(this.timer)
       hookAfterTimerFinished(taskId)
     }
@@ -54,7 +68,9 @@ class TimeProgressBar extends Component {
   }
 
   clearTimer = () => {
-    clearInterval(this.timer)
+    const { timer } = this.state
+    clearInterval(timer)
+    this.setState({ timer: -1 })
   }
 
   getTimeLabel = (curTime) => {
