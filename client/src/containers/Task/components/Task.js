@@ -11,6 +11,7 @@ import {
 } from 'reactstrap'
 import ChevronDownIcon from 'mdi-react/ChevronDownIcon'
 import LoadingIcon from 'mdi-react/LoadingIcon'
+import AutorenewIcon from 'mdi-react/AutorenewIcon'
 import CommentBox from './TaskCommentBox'
 import ResizableProgressBar from '../../../components/progressbar/ResizableProgressBar'
 import TimeProgressBar from '../../../components/progressbar/TimeProgressBar'
@@ -74,14 +75,20 @@ class Task extends Component {
   onTimerStart = (taskId) => {
     const { tasks, updateTaskStatusAction } = this.props
     const index = tasks.data.findIndex(item => { return item.id === taskId })
-    updateTaskStatusAction(index, 'inProgress', !tasks.data[index].inProgress)
+    updateTaskStatusAction(tasks.data[index].id, 'timeStatus', tasks.data[index].timeStatus ? 0 : 1)
   }
 
   onTimerFinished = (taskId) => {
     const { tasks, updateTaskStatusAction } = this.props
 
     const index = tasks.data.findIndex(item => { return item.id === taskId })
-    updateTaskStatusAction(index, 'isFinished', true)
+    updateTaskStatusAction(tasks.data[index].id, 'timeStatus', 2)
+  }
+
+  onReloadTasks = () => {
+    const { getTasksAction } = this.props
+
+    getTasksAction()
   }
 
   onAddNewTask = () => {
@@ -90,8 +97,8 @@ class Task extends Component {
     const newTask = {
       id: 'newTask_' + curTime,
       username: user.username,
-      inProgress: false,
-      isFinished: false,
+      status: 'backlog',
+      timeStatus: 1,
       isShow: true,
       startTime: 0,
       endTime: 3600,
@@ -106,8 +113,8 @@ class Task extends Component {
   onDeleteTask = (taskId) => {
     const { tasks, deleteTaskAction } = this.props
 
-    const index = tasks.findIndex(item => { return item.id === taskId })
-    if (tasks[index].inProgress) {
+    const index = tasks.data.findIndex(item => { return item.id === taskId })
+    if (!tasks.data[index].timeStatus) {
       alert(`Sorry, can't delete the task in progress. Please stop the task first.`)
       return
     }
@@ -126,6 +133,7 @@ class Task extends Component {
         {tasks.loading && <div className='loading'><LoadingIcon /></div>}
         <div className='task-content'>
           <div className='task-content-header'>
+            <Button className='btn-refresh' onClick={this.onReloadTasks}><AutorenewIcon /></Button>
             <Button className='btn-add-task' onClick={this.onAddNewTask}>Add Task</Button>
           </div>
           <div className='drag-drop-context'>
@@ -148,11 +156,11 @@ class Task extends Component {
                               <div className='progress-bar-group-header'>
                                 <Button
                                   color='danger'
-                                  disabled={user.username !== item.username || item.isFinished}
+                                  disabled={user.username !== item.username || item.timeStatus === 2}
                                   className='btn-timer'
                                   onClick={() => this.onTimerStart(item.id)}
                                 >
-                                  {item.inProgress ? 'Stop' : 'Start'}
+                                  {item.timeStatus ? 'Start' : 'Stop'}
                                 </Button>
                                 <div className='header-title' {...provided.dragHandleProps}>Title - junefox chat</div>
                                 <UncontrolledDropdown>
@@ -172,7 +180,7 @@ class Task extends Component {
                                       userName={item.username}
                                       startTime={item.startTime}
                                       endTime={item.endTime}
-                                      inProgress={item.inProgress}
+                                      inProgress={!item.timeStatus}
                                       hookAfterTimerFinished={this.onTimerFinished}
                                     />
                                   </div>

@@ -26,31 +26,39 @@ export default createProducer(initialState, {
   },
 
   [actionTypes.ADD_NEW_TASK_SUCCESS]: (task, { data }) => {
-    const { tasks } = data
+    const { newTask, error } = data
 
     task.loading = false
-    task.data = tasks
+    if (!error) task.data.push(newTask)
   },
 
-  [actionTypes.ADD_NEW_TASK]: (task, { data }) => {
-    task.data.push(data.newTask)
+  [actionTypes.DELETE_TASK_START]: (task, { data }) => {
+    task.loading = true
+    task.action = 'delete'
   },
 
-  [actionTypes.DELETE_TASK]: (task, { data }) => {
-    const { taskId } = data
-    const index = task.data.findIndex(item => { return item.id === taskId })
-    task.data.splice(index, 1)
+  [actionTypes.DELETE_TASK_SUCCESS]: (task, { data }) => {
+    const { taskId, error } = data
+
+    task.loading = false
+    if (!error) {
+      const index = task.data.findIndex(item => item.id === taskId)
+      task.data[index].status = 'deleted'
+    }
   },
 
-  [actionTypes.START_TIMER]: (task, { data }) => {
-    const { index, key, value } = data
-    task.data[index][key] = value
-    
-    if (key === 'isFinished') {
-      task.data[index].inProgress = false
-      task.data[index].startTime = task.data[index].endTime
-    } else if (key === 'isShow') {
-      // task.data[index].systemTime = new Date().getTime()
+  [actionTypes.UPDATE_TASK_START]: (task, { data }) => {
+    task.loading = true
+    task.action = 'update'
+  },
+
+  [actionTypes.UPDATE_TASK_SUCCESS]: (task, { data }) => {
+    const { updatedTask, error } = data
+
+    task.loading = false
+    if (!error) {
+      const index = task.data.findIndex(item => item.id === updatedTask.id)
+      task.data[index] = updatedTask
     }
   }
 })

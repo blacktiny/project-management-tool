@@ -25,6 +25,7 @@ export const api = (action) => async (dispatch) => {
   })
   let requestURL = type
   const resp = await apiCall(requestURL, action.data)
+  console.log('resp = ', resp.data)
   if (resp.data) {
     dispatch({
       type: type+'/success',

@@ -19,5 +19,7 @@ export default {
   DELETE_TASK: 'task/delete',
   DELETE_TASK_START: 'task/delete/start',
   DELETE_TASK_SUCCESS: 'task/delete/success',
-  START_TIMER: 'task/timer/start'
+  UPDATE_TASK: 'task/update',
+  UPDATE_TASK_START: 'task/update/start',
+  UPDATE_TASK_SUCCESS: 'task/update/success'
 }
