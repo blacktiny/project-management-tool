@@ -92,7 +92,22 @@ exports.get = async function (data) {
     tasks: null
   }
 
-  resp.tasks = tasks
+  resp.tasks = tasks.map(item => {
+    let startTime = item.startTime
+    let timeStatus = item.timeStatus
+    if (item.timeStatus === 0) {
+      startTime = startTime + parseInt((new Date().getTime() - item.systemTime) / 1000)
+      if (startTime >= item.endTime) {
+        startTime = item.endTime
+        timeStatus = 2
+      }
+    }
+    return {
+      ...item,
+      startTime,
+      timeStatus
+    }
+  })
 
   return { data: resp }
 }
@@ -139,33 +154,27 @@ exports.update = async function (data) {
         switch (value) {
           case 0:
             {
-              const time_now = new Date().getTime()
-              if (tasks[index].systemTime !== 0) {  // resume
-                tasks[index].startTime += parseInt((time_now - tasks[index].systemTime) / 1000)
-              } else {  // start
-                tasks[index].startTime = 0
-              }
-              tasks[index].systemTime = time_now
-              if (tasks[index].startTime > tasks[index].endTime) {
-                tasks[index].timeStatus = 2
-                tasks[index].startTime = tasks[index].endTime
-              } else {
-                tasks[index].timeStatus = 0
-              }
+              tasks[index].systemTime = new Date().getTime()
+              tasks[index].timeStatus = 0
             }
             break
           case 1:
             {
               const time_now = new Date().getTime()
-              tasks[index].startTime += parseInt((time_now - tasks[index].systemTime) / 1000)
-              tasks[index].systemTime = time_now
+              tasks[index].startTime = tasks[index].startTime + parseInt((time_now - tasks[index].systemTime) / 1000)
               tasks[index].timeStatus = 1
+              if (tasks[index].startTime >= tasks[index].endTime) {
+                tasks[index].startTime = tasks[index].endTime
+                tasks[index].timeStatus = 2
+                tasks[index].systemTime = 0
+              }
             }
             break
           case 2:
             {
               tasks[index].startTime = tasks[index].endTime
               tasks[index].timeStatus = 2
+              tasks[index].systemTime = 0
             }
             break
         }
